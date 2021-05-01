@@ -36,6 +36,10 @@ function Dashboard() {
 		const attName = document.getElementById('attName').value;
 		const attContaxt = document.getElementById('attContaxt').value;
 		const additional = document.getElementById('additional').value;
+		if (!need || need === '') {
+			window.alert("Select Requirement");
+			return;
+		}
 		setIsLoading(true);
 		await db.collection('needs').add({
 			name: name,
@@ -78,7 +82,7 @@ function Dashboard() {
 							</label>
 							<label>
 								<select class="custom-select custom-select-lg mb-3" id="need" placeholder="What are you looking for?/आप क्या ढूंढ रहे हैं?">
-								    <option value=''>What are you looking for?/आप क्या ढूंढ रहे हैं?</option>
+								    <option value=''>Requirement/आवश्यकता</option>
 									<option value="Oxygen">Oxygen</option>
 									<option value="Food">Food</option>
 									<option value="Medicine">Medicine</option>
@@ -96,7 +100,7 @@ function Dashboard() {
 								<input placeholder="Attendant Contact/अटेंडेंट संपर्क" type="text" id="attContaxt" required />
 							</label>
 								Addition Details(Medicine Name, Address)/अतिरिक्त विवरण (चिकित्सा नाम, पता):
-          						<textarea  id="additional" />
+          						<textarea  id="additional" required/>
 						
 						</div>
 						<div className="form--option">

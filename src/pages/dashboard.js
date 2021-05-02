@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
-import SweetAlert from 'react-bootstrap-sweetalert';
-import Menu from './menu';
-import firebase from './Firebase.js'
-import { confirmAlert } from 'react-confirm-alert';
-
+import Header from "../elements/header";
+import Sidebar from "../elements/sidebar";
+import { Link, Redirect } from 'react-router-dom';
+import axios from 'axios';
+import { AuthContext } from "../firebase/Auth";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import Firebase from '../firebase/Firebase.js'
 // import {}
 
 
-export const db = firebase.firestore();
+export const db = Firebase.firestore();
 function Dashboard() {
 
 	const [name, setName] = useState("");
@@ -21,17 +22,17 @@ function Dashboard() {
 	const [note, setNote] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 
-	const handleNote= (event) => {
+	const handleNote = (event) => {
 		this.setNote(event.target.value);
-	  }
+	}
 
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		const name = document.getElementById('name').value;
-        const age = document.getElementById('age').value;
-        const ol = document.getElementById('ol').value;
-        const place = document.getElementById('place').value;
+		const age = document.getElementById('age').value;
+		const ol = document.getElementById('ol').value;
+		const place = document.getElementById('place').value;
 		const need = document.getElementById('need').value;
 		const attName = document.getElementById('attName').value;
 		const attContaxt = document.getElementById('attContaxt').value;
@@ -50,77 +51,160 @@ function Dashboard() {
 			attName: attName,
 			attContact: attContaxt,
 			additional: additional,
+			status: "New",
 			createdAt: new Date()
-		  });
-		  setIsLoading(true);
-		  window.alert("Submitted Successfully");
-		  window.location.reload(false);
+		});
+		setIsLoading(true);
+		window.alert("Submitted Successfully");
+		window.location.reload(false);
 
 	}
 
+	useEffect(() => {
 
 
+	}, []);
+
+	const renderRedirect = () => {
+
+	};
 
 
 
 	return (
 		<div>
-			<section className="appointment">
-				<div className="form__container show">
-					<form className="dashboard wrapper" onSubmit={handleSubmit}>
-						<div className="form--option">
-							<label>
-								<input placeholder="Patient Name/रोगी का नाम" type="text" id="name" required />
-							</label>
-							<label>
-								<input placeholder="Patient Age/रोगी की आयु" type="text" id="age"  required />
-							</label>
-							<label>
-								<input placeholder="Oxygen Level/ऑक्सीजन स्तर" type="text" id="ol"required />
-							</label>
-							<label>
-								<input placeholder="Place/जगह" type="text" id="place" required />
-							</label>
-							<label>
-								<select class="custom-select custom-select-lg mb-3" id="need" placeholder="What are you looking for?/आप क्या ढूंढ रहे हैं?">
-								    <option value=''>Requirement/आवश्यकता</option>
-									<option value="Oxygen">Oxygen</option>
-									<option value="Food">Food</option>
-									<option value="Medicine">Medicine</option>
-									<option value="CT">CT Scan</option>
-									<option value="Doctor">Doctor Consultation</option>
-									<option value="Bed">Bed</option>
-									<option value="Plasma">Plasma</option>
+			{renderRedirect()}
+			<Header />
+			<div id="wrapper">
+				<Sidebar></Sidebar>
+				<div id="content-wrapper">
+					<div className="container-fluid">
+						<ol className="breadcrumb">
+							<li className="breadcrumb-item">
+								<Link to={'/dashboard'}>Dashboard</Link>
+							</li>
+							<li className="breadcrumb-item active">Overview</li>
+						</ol>
+						<div className="container-fluid">
+							<div className="card mx-auto">
+								<div className="card-header">Add Requirement</div>
+								<div className="card-body">
+									<form onSubmit={handleSubmit}>
+										<div className="form-group">
+											<div className="form-row">
+												<div className="col-md-6">
+													<div className="form-label-group">
+														<input type="text" id="name" className="form-control" placeholder="Patient Name/रोगी का नाम" required="required" autoFocus="autofocus" />
+														<label htmlFor="name">Patient Name/रोगी का नाम</label>
+													</div>
+												</div>
+												<div className="col-md-6">
+													<div className="form-label-group">
+														<input type="number" id="age" className="form-control" placeholder="Patient Age/रोगी की आयु" required="required" />
+														<label htmlFor="age">Patient Age/रोगी की आयु</label>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div className="form-group">
+											<div className="form-row">
+												<div className="col-md-6">
+													<div className="form-label-group">
+														<input type="number" id="ol" className="form-control" placeholder="Oxygen Level/ऑक्सीजन स्तर" required="required" />
+														<label htmlFor="ol">Oxygen Level/ऑक्सीजन स्तर</label>
+													</div>
+												</div>
+												<div className="col-md-6">
+													<div className="form-label-group">
+														<input type="text" id="place" className="form-control" placeholder="Address/जगह" required="required" />
+														<label htmlFor="place">Address/जगह</label>
+													</div>
+												</div>
+											</div>
+										</div>
 
-								</select>
-							</label>
-							<label>
-								<input placeholder="Attendant Name/अटेंडेंट का नाम" type="text" id="attName" required />
-							</label>
-							<label>
-								<input placeholder="Attendant Contact/अटेंडेंट संपर्क" type="text" id="attContaxt" required />
-							</label>
-								Addition Details(Medicine Name, Address)/अतिरिक्त विवरण (चिकित्सा नाम, पता):
-          						<textarea  id="additional" required/>
-						
+										<div className="form-group">
+											<div className="form-row">
+												<div className="col-md-6">
+													<div className="form-label-group">
+														<input type="text" id="problem" className="form-control" placeholder="Problem/तकलीफ" required="required" />
+														<label htmlFor="problem">Problem/तकलीफ</label>
+													</div>
+												</div>
+												<div className="col-md-2">
+													<div className="form-label-group">
+														<label htmlFor="need">What are you looking for?/आप क्या ढूंढ रहे हैं?: </label>
+													</div>
+												</div>
+												<div className="col-md-4">
+													<div className="form-label-group">
+														<select class="custom-select custom-select-lg mb-3" id="need" placeholder="What are you looking for?/आप क्या ढूंढ रहे हैं?">
+															<option value="Oxygen">Oxygen</option>
+															<option value="Food">Food</option>
+															<option value="Medicine">Medicine</option>
+															<option value="CT">CT Scan</option>
+															<option value="Doctor">Doctor Consultation</option>
+															<option value="Bed">Bed</option>
+															<option value="Plasma">Plasma</option>
+														</select>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div className="form-group">
+											<div className="form-row">
+												<div className="col-md-6">
+													<div className="form-label-group">
+														<input type="text" id="attName" className="form-control" placeholder="Attendant Name/अटेंडेंट का नाम" required="required" autoFocus="autofocus" />
+														<label htmlFor="attName">Attendant Name/अटेंडेंट का नाम</label>
+													</div>
+												</div>
+												<div className="col-md-6">
+													<div className="form-label-group">
+														<input type="number" id="attContaxt" className="form-control" placeholder="Attendant Contact/अटेंडेंट संपर्क" required="required" />
+														<label htmlFor="attContaxt">Attendant Contact/अटेंडेंट संपर्क</label>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div className="form-group">
+											<div className="form-row">
+												<div className="col-md-6">
+													<div className="form-label-group">
+														<label htmlFor="additional"></label>
+														<textarea id="additional" className="form-control" placeholder="Addition Details(Medicine Name, Address)/अतिरिक्त विवरण (चिकित्सा नाम, पता)" required="required" />
+													</div>
+												</div>
+
+											</div>
+										</div>
+
+										<button className="btn btn-primary btn-block" type="submit" disabled={isLoading ? true : false}>Submit &nbsp;&nbsp;&nbsp;
+                                                        {isLoading ? (
+												<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+											) : (
+												<span></span>
+											)}
+										</button>
+									</form>
+								</div>
+							</div>
 						</div>
-						<div className="form--option">
-							<input className="button button--next button--submit" type="submit" value="Submit" disabled={isLoading ? true : false}/>
-							{isLoading ? (
-                                                            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                                        ) : (
-                                                            <span></span>
-                                                        )}
-						</div>
-					</form>
+
+						<div className="card-footer small text-muted">Updated Today at 11:59 PM</div>
+					</div>
+
 				</div>
 
-			</section>
-			{/* <Menu showMenu={this.showMenu} hideMenu={this.hideMenu} toggleMenu={this.state.toggleMenu} addAppointment={this.addAppointment}/> */}
-		</div>
-	)
-
-
+				<footer className="sticky-footer">
+					<div className="container my-auto">
+						<div className="copyright text-center my-auto">
+{/* //							<span>Copyright © Flecso <div>{(new Date().getFullYear())}</div></span> */}
+						</div>
+					</div>
+				</footer>
+			</div>
+		</div>);
 }
 
 export default Dashboard

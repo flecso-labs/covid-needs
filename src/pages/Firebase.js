@@ -15,4 +15,3 @@ Firebase.initializeApp(firebaseConfig);
 //firebase.initializeApp(firebaseConfig);
 Firebase.analytics();
 export default Firebase;
-

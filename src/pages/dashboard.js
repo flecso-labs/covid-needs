@@ -148,6 +148,7 @@ function Dashboard() {
 															<option value="Doctor">Doctor Consultation</option>
 															<option value="Bed">Bed</option>
 															<option value="Plasma">Plasma</option>
+															<option value="Test">Covid Test</option>
 														</select>
 													</div>
 												</div>

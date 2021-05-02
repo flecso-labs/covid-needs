@@ -17,3 +17,36 @@ code {
 error {
   color: red;
 }
+
+.resources {
+  display: flex;
+  flex-direction: column;
+  width: 30rem;
+
+  .resource {
+    border-radius: 0.25rem;
+    padding: 1rem;
+    text-decoration: none;
+    width: 100%;
+
+    .link {
+      color: blue;
+      font-size: 14px;
+      margin: 0;
+      width: 100%;
+      word-wrap: break-word;
+    }
+
+    .title {
+      color: darkblue;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    &:hover {
+      background: gray;
+      cursor: pointer;
+    }
+  }
+}

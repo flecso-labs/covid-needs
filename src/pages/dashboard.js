@@ -37,6 +37,7 @@ function Dashboard() {
 		const attName = document.getElementById('attName').value;
 		const attContaxt = document.getElementById('attContaxt').value;
 		const additional = document.getElementById('additional').value;
+		const idNumber = document.getElementById('idNumber').value;
 		if (!need || need === '') {
 			window.alert("Select Requirement");
 			return;
@@ -51,6 +52,7 @@ function Dashboard() {
 			attName: attName,
 			attContact: attContaxt,
 			additional: additional,
+			idNumber: idNumber,
 			status: "New",
 			createdAt: new Date()
 		});
@@ -169,6 +171,12 @@ function Dashboard() {
 										</div>
 										<div className="form-group">
 											<div className="form-row">
+											<div className="col-md-6">
+													<div className="form-label-group">
+														<input type="text" id="idNumber" className="form-control" placeholder="Id Number/आईडी नंबर (Aadhar, Pan)" autoFocus="autofocus" />
+														<label htmlFor="idNumber">Id Number/आईडी नंबर (Aadhar, Pan)</label>
+													</div>
+												</div>
 												<div className="col-md-6">
 													<div className="form-label-group">
 														<label htmlFor="additional"></label>
